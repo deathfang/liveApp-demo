@@ -219,6 +219,15 @@ module.exports = function (grunt) {
         clean : {
             // spm : ['.build']
             spm : ['.build', "dist/component", "dist/component_module", "dist/view/**/js", "dist/view/**/*-debug.js"]
+        },
+        connect: {
+            server: {
+                options: {
+                    port: 3000,
+                    keepalive:true,
+                    open:'http://localhost:3000'
+                }
+            }
         }
     });
 
@@ -227,6 +236,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // grunt.registerTask('build-s', ['cssmin']);
     // grunt.registerTask('build-w', ['transport:widget', 'concat:widget', 'uglify:widget', 'clean']);

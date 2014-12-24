@@ -8,7 +8,7 @@ define(function (require, exports, module){
 	var show = require('show');
 
 	// 引入三方组件
-	require('touch');
+	//require('touch');
 	var media = require('media');
 	var mPage = require('mPage');
 	var preLoad = require('preLoad');
@@ -180,7 +180,7 @@ define(function (require, exports, module){
 			var _mPage = new mPage('.pageWrap', '.m-page', {
 				'width' : width,
 				'height' : height,
-				'isSingle' : true,
+				'isSingle' : false,
 	            'scale' : 0,
 	            'moveY' : 1
 			});
@@ -189,9 +189,9 @@ define(function (require, exports, module){
 				if (svg.length > 0 ) {
 					for (var i = 0, len = svg.length; i < len; i++) {
 						var _svg = svg[i];
-						if (_svg.dataset.render == 'true') {
-							return
-						}
+						//if (_svg.dataset.render == 'true') {
+						//	return
+						//}
 
 						_svg.className.baseVal = _svg.className.baseVal.replace('f-hide', '');
 

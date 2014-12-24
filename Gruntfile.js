@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
     var transport = require('grunt-cmd-transport');
-    var style = transport.style.init(grunt);
+    //var style = transport.style.init(grunt);
     var text = transport.text.init(grunt);
     var script = transport.script.init(grunt);
 
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 alias: '<%= pkg.spm.alias %>',
                 parsers : {
                     '.js' : [script.jsParser],
-                    '.css' : [style.css2jsParser],
+                    //'.css' : [style.css2jsParser],
                     '.html' : [text.html2jsParser]
                 }
             },
@@ -38,6 +38,7 @@ module.exports = function (grunt) {
                         cwd : 'component/widget/',
                         src : '**/*',
                         filter : 'isFile',
+                        expand:true,
                         dest : '.build/component/widget'
                     }
                 ]
@@ -53,6 +54,7 @@ module.exports = function (grunt) {
                         cwd : 'component/',
                         src : '**/*',
                         filter : 'isFile',
+                        expand:true,
                         dest : '.build/component'
                     }
                 ]
@@ -68,6 +70,7 @@ module.exports = function (grunt) {
                         cwd : 'component_module/',
                         src : '**/*',
                         filter : 'isFile',
+                        expand:true,
                         dest : '.build/component_module'
                     }
                 ]
@@ -83,6 +86,7 @@ module.exports = function (grunt) {
                         cwd : 'view/',
                         src : '**/*.js',
                         filter : 'isFile',
+                        expand:true,
                         dest : '.build/view'
                     }
                 ]
@@ -197,7 +201,20 @@ module.exports = function (grunt) {
                         ext: '.js'
                     }
                 ]
+            },
+
+            init:{
+                files:{
+                    'dist/view/library/init.js':[
+                        'view/library/zepto.js',
+                        'view/library/template-debug.js',
+                        'spm_modules/**/dist/sea-debug.js',
+                        'spm_modules/**/dist/seajs-text-debug.js'
+                        ,'spm_modules/**/dist/seajs-css-debug.js'
+                    ]
+                }
             }
+
         },
 
         cssmin : {
@@ -223,9 +240,9 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    port: 3000,
                     keepalive:true,
-                    open:'http://localhost:3000'
+                    hostname:'localhost',
+                    open:true
                 }
             }
         }

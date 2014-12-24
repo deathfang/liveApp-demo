@@ -451,7 +451,6 @@
 
             // pc-mouse
             if ( this.hasMouse ) {
-console.log(1)                
                 eventType(target, 'mousedown', this);
                 eventType(target, 'mousemove', this);
                 eventType(target, 'mousecancel', this);

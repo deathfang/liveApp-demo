@@ -63,7 +63,8 @@
     </div>
     <!-- /app -->
     
-    <script src="../../dist/view/library/init_mobile.js"></script>
+    <!--<script src="/dist/view/library/init_mobile.js"></script>-->
+    <script src="/dist/view/library/init.js"></script>
     <script type="text/javascript" charset="utf-8">
         var WINDOW_LOAD = false;
         var JS_VISION = 1.0;
@@ -87,7 +88,7 @@
                 'media' : RES_DIR + 'component_module/media/media',
                 'svgAni' : RES_DIR + 'component_module/svgAni/svgAni',
                 'gifAni' : RES_DIR + 'component_module/gifAni/gifAni',
-                'touch' : RES_DIR + 'component_module/touch/touch',
+//                'touch' : RES_DIR + 'component_module/touch/touch',
 
                 // app
                 "app" : RES_DIR + 'view/demo/app',
@@ -98,7 +99,7 @@
             // 路径映射
             map: [
                 [/\.css|js$/, function(url) {
-                        return url += (url.indexOf('?') === -1 ? '?' : '&') + 'v='+JS_VISION;
+                        return url += (url.indexOf('?') === -1 ? '?' : '&') + 'v='+JS_VISION.toFixed(1);
                     }
                 ]
             ]

@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     var transport = require('grunt-cmd-transport');
-    //var style = transport.style.init(grunt);
-    var text = transport.text.init(grunt);
+    var style = transport.style.init(grunt);
+    var template = transport.template.init(grunt);
     var script = transport.script.init(grunt);
 
     grunt.initConfig({
@@ -23,8 +23,8 @@ module.exports = function (grunt) {
                 alias: '<%= pkg.spm.alias %>',
                 parsers : {
                     '.js' : [script.jsParser],
-                    //'.css' : [style.css2jsParser],
-                    '.html' : [text.html2jsParser]
+                    '.css' : [style.cssParser],
+                    '.tpl' : [template.tplParser]
                 }
             },
 
@@ -117,7 +117,14 @@ module.exports = function (grunt) {
                         cwd: '.build/',
                         src: ['component/**/*.js'],
                         dest: 'dist/',
-                        ext: '.js'
+                        ext: ['.js']
+                    },
+                    {
+                        expand: true,
+                        cwd: '.build/',
+                        src: ['component/**/*.css'],
+                        dest: 'dist/',
+                        ext: ['.css']
                     }
                 ]
             },
@@ -266,5 +273,12 @@ module.exports = function (grunt) {
         'transport:component', 'concat:component', 'uglify:component',
         'transport:component_module', 'concat:component_module', 'uglify:component_module',
         'transport:app', 'concat:app', 'uglify:app', 'clean'
+    ]);
+    grunt.registerTask('dev', [
+        'cssmin:appCSS',
+        'transport:widget', 'concat:widget',
+        'transport:component', 'concat:component',
+        'transport:component_module', 'concat:component_module',
+        'transport:app', 'concat:app'
     ]);
 };

@@ -65,6 +65,11 @@
     
     <!--<script src="/dist/view/library/init_mobile.js"></script>-->
     <script src="/dist/view/library/init.js"></script>
+    <!--<script src="../../view/library/zepto.js"></script>-->
+    <!--<script src="../../view/library/template-debug.js"></script>-->
+    <!--<script src="../../spm_modules/seajs/2.3.0/dist/sea-debug.js"></script>-->
+    <!--<script src="../../spm_modules/seajs-text/1.1.0/dist/seajs-text-debug.js"></script>-->
+    <!--<script src="../../spm_modules/seajs-css/1.0.2/dist/seajs-css-debug.js"></script>-->
     <script type="text/javascript" charset="utf-8">
         var WINDOW_LOAD = false;
         var JS_VISION = 1.0;
@@ -106,7 +111,7 @@
         });
         
         /*! 初始化加载模块*/
-        seajs.use(["app"], function(app){
+        seajs.use(["dist"], function(app){
             app.init();
         });
 
@@ -115,8 +120,8 @@
         })
 
         // 百度统计
-        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F601216b48469105db95c145ece9945b7' type='text/javascript'%3E%3C/script%3E"));
+//        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+//        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F601216b48469105db95c145ece9945b7' type='text/javascript'%3E%3C/script%3E"));
     </script>
 </body>
 </html>

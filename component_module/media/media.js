@@ -45,42 +45,22 @@
 	}
 	var isObject = isType("Object");
 	var isString = isType("String");
-	var isArray = Array.isArray || isType("Array");
-	var isFunction = isType("Function");
-	var isWindow = function(obj) {
-		return obj != null && obj == obj.window
-	}
-	var isDocument = function(obj) {
-		return obj != null && obj instanceof window.Element && obj.nodeType == obj.DOCUMENT_NODE
-	}
+
 	var isElement = function(obj){
 		return obj != null && obj instanceof window.Element && obj.nodeType == obj.ELEMENT_NODE
 	}
-	var likeArray = function (obj) {
-    	return typeof obj.length == 'number'
- 	}
-
-	/**
-	 * @method addEvent()
-	 * @description 给指定Dom对象绑定事件
-	 *
-	 * @param {documentDom} el 需要绑定事件的DOM对象
-	 * @param {string} type 绑定的事件类型
-	 * @param {function} fn 事件执行的回调函数
-	 * @param {boolean} capture 判断是否事件冒泡
-	 */
 	function addEvent(el, type, fn, capture) {
 		capture = !!capture ? true : false;
 
-		if (el.addEventListener){
-            el.addEventListener(type, fn, capture);
-        } else if (el.attachEvent){
-            el.attachEvent("on" + type, fn);
-        } else {
-            el["on" + type] = fn;
-        }
+		//if (el.addEventListener){
+		//    el.addEventListener(type, fn, capture);
+		//} else if (el.attachEvent){
+		//    el.attachEvent("on" + type, fn);
+		//} else {
+		//    el["on" + type] = fn;
+		//}
+		el.addEventListener(type, fn, capture);
 	}
-
 	/**
 	 * @method removeEvent()
 	 * @description 给指定Dom对象解除事件
@@ -93,13 +73,14 @@
 	function removeEvent(el, type, fn, capture) {
 		capture = !!capture ? true : false;
 
-        if (el.removeEventListener){
-            el.removeEventListener(type, fn, capture);
-        } else if (el.detachEvent){
-            el.detachEvent("on" + type, fn);
-        } else {
-            el["on" + type] = null;
-        }
+        //if (el.removeEventListener){
+        //    el.removeEventListener(type, fn, capture);
+        //} else if (el.detachEvent){
+        //    el.detachEvent("on" + type, fn);
+        //} else {
+        //    el["on" + type] = null;
+        //}
+		el.removeEventListener(type, fn, capture);
 	}
 	
 	// 音频对象储存为window下，在控制时调用

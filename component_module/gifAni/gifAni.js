@@ -20,117 +20,16 @@
     }
 })('GifAni', function(){
 
-    /**
-     * @method isType()
-     * @description 判断类型
-     *
-     * @param {string} type 数据类型
-     *
-     * @return {boolean} 指定参数以否是指定类型
-     *
-     * @example
-     * ```js
-     *   var a = [];
-     *   isArray(a)  --> true 
-     *   isString(a) --> false
-     *
-     *   var b = document.createElement('div');
-     *   isWindow(b) --> false
-     *   isElement(b) --> true
-     */
-    function isType(type) {
-        return function(obj) {
-            return Object.prototype.toString.call(obj) === "[object " + type + "]";
-        }
-    }
-    var isObject = isType("Object");
-    var isString = isType("String");
-    var isArray = Array.isArray || isType("Array");
-    var isFunction = isType("Function");
-    var isWindow = function(obj) {
-        return obj != null && obj == obj.window
-    }
-    var isDocument = function(obj) {
-        return obj != null && obj.nodeType == obj.DOCUMENT_NODE
-    }
-    var isElement = function(obj){
-        return obj != null && obj.nodeType == obj.ELEMENT_NODE
-    }
-    var likeArray = function (obj) {
-        return typeof obj.length == 'number'
-    }
-
-    /**
-     * @method _forEach()
-     * @description 遍历元素，分别对于回调函数处理
-     * 
-     * @param {Array | element | object} elements 需要遍历处理的元素
-     * @param {function} callback 回调处理函数
-     *
-     * @return {Array | element | object} 返回当前元素
-     */
-    function _forEach(elements, callback) {
-        var i, key
-        if (likeArray(elements)) {
-            for (i = 0; i < elements.length; i++) {
-                if (callback.call(elements[i], i, elements[i]) === false) return elements   
-            }
-        } else {
-            for (key in elements) {
-                if (callback.call(elements[key], key, elements[key]) === false) return elements 
-            }
-        }
-
-        return elements
-    }
-
-    /**
-     * @method function.bind()
-     * @description 对Function的this指针上下文延长
-     *
-     * @param {object、this} target 延长指定的上下文
-     * @param {Array} agrs 回调函数执行的参数传递
-     *
-     * @return {function} 函数函数执行，传递指定参数
-     * 
-     */
-    Function.prototype.bind = Function.prototype.bind || function (target, agrs) {
-        var self = this;
-
-        return function (agrs){
-            if (!(isArray(agrs))) {
-                agrs = [agrs];
-            }
-
-            self.apply(target, agrs);
-        }
-    }
-
-    /**
-     * @method addEvent()
-     * @description 给指定Dom对象绑定事件
-     *
-     * @param {documentDom} el 需要绑定事件的DOM对象
-     * @param {string} type 绑定的事件类型
-     * @param {function} fn 事件执行的回调函数
-     * @param {boolean} capture 判断是否事件冒泡
-     */
-    function addEvent(el, type, fn, capture) {
-        capture = !!capture ? true : false;
-
-        if (el.addEventListener){
-            el.addEventListener(type, fn, capture);
-        } else if (el.attachEvent){
-            el.attachEvent("on" + type, fn);
-        } else {
-            el["on" + type] = fn;
-        }
-    }
-    
     // 正常判断图片路径
     var isImgUrl = /(^data:.*?;base64)|(\.(jpg|png|gif)$)/;
     // 默认图片
     var IMG_INIT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC';
+
+    var _forEach = function(elements, callback){
+        [].forEach.call(elements,function(item,i){
+            callback(i,item)
+        })
+    }
 
     /**
      * @class GifAni
@@ -248,7 +147,7 @@
             var len = this.gifs.length;
             var count = 0;
 
-            _forEach(this.gifs, function(i, item){
+            _forEach(this.gifs,function(i, item){
                 var src = item.dataset.gif;
 
                 var img = new Image;
@@ -305,7 +204,7 @@
             con.appendChild(cav);
             item.appendChild(con);
 
-            this.eventInit && addEvent(con, this.eventType, this.gifEvent.bind(this, i), false);
+            this.eventInit && con.addEventListener(this.eventType,this.gifEvent.bind(this, i),false)
 
             this.gifArr[i] = {
                 img : img,
@@ -316,7 +215,7 @@
 
             // 自动load加载
             if (this.isLoad && isLoad == 'true') {
-                addEvent(window, 'load', this.gifShow.bind(this, i), false);
+                window.addEventListener('load',this.gifShow.bind(this, i),false)
             }
         },
 

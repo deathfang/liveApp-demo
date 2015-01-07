@@ -44,69 +44,26 @@
             return Object.prototype.toString.call(obj) === "[object " + type + "]"
         }
     }
-    var isObject = isType("Object");
     var isString = isType("String");
-    var isArray = Array.isArray || isType("Array");
-    var isFunction = isType("Function");
-    var isWindow = function(obj) {
-        return obj != null && obj == obj.window
-    }
-    var isDocument = function(obj) {
-        return obj != null && obj.nodeType == obj.DOCUMENT_NODE
-    }
     var isElement = function(obj){
         return obj != null && obj.nodeType == obj.ELEMENT_NODE
-    }
-    var likeArray = function (obj) {
-        return typeof obj.length == 'number'
-    }
-
-    /**
-     * @method function.bind()
-     * @description 对Function的this指针上下文延长
-     *
-     * @param {object、this} target 延长指定的上下文
-     * @param {Array} agrs 回调函数执行的参数传递
-     *
-     * @return {function} 函数函数执行，传递指定参数
-     * 
-     */
-    Function.prototype.bind = Function.prototype.bind || function (target, agrs) {
-        var self = this;
-
-        return function (agrs){
-            if (!(isArray(agrs))) {
-                agrs = [agrs];
-            }
-
-            self.apply(target, agrs);
-        }
     }
 
     /**
      * @method _forEach()
      * @description 遍历元素，分别对于回调函数处理
-     * 
+     *
      * @param {Array | element | object} elements 需要遍历处理的元素
      * @param {function} callback 回调处理函数
      *
      * @return {Array | element | object} 返回当前元素
      */
-    function _forEach(elements, callback) {
-        var i, key
-        if (likeArray(elements)) {
-            for (i = 0; i < elements.length; i++) {
-                if (callback.call(elements[i], i, elements[i]) === false) return elements   
-            }
-        } else {
-            for (key in elements) {
-                if (callback.call(elements[key], key, elements[key]) === false) return elements 
-            }
-        }
 
-        return elements
+    var _forEach = function(elements, callback){
+        [].forEach.call(elements,function(item,i){
+            callback(i,item)
+        })
     }
-
     /**
      * @method addEvent()
      * @description 给指定Dom对象绑定事件
@@ -119,13 +76,14 @@
     function addEvent(el, type, fn, capture) {
         capture = !!capture ? true : false;
 
-        if (el.addEventListener){
-            el.addEventListener(type, fn, capture);
-        } else if (el.attachEvent){
-            el.attachEvent("on" + type, fn);
-        } else {
-            el["on" + type] = fn;
-        }
+        //if (el.addEventListener){
+        //    el.addEventListener(type, fn, capture);
+        //} else if (el.attachEvent){
+        //    el.attachEvent("on" + type, fn);
+        //} else {
+        //    el["on" + type] = fn;
+        //}
+        el.addEventListener(type, fn, capture);
     }
 
     /**
@@ -140,13 +98,14 @@
     function removeEvent(el, type, fn, capture) {
         capture = !!capture ? true : false;
 
-        if (el.removeEventListener){
-            el.removeEventListener(type, fn, capture);
-        } else if (el.detachEvent){
-            el.detachEvent("on" + type, fn);
-        } else {
-            el["on" + type] = null;
-        }
+        //if (el.removeEventListener){
+        //    el.removeEventListener(type, fn, capture);
+        //} else if (el.detachEvent){
+        //    el.detachEvent("on" + type, fn);
+        //} else {
+        //    el["on" + type] = null;
+        //}
+        el.removeEventListener(type, fn, capture);
     }
 
     /**
@@ -287,7 +246,7 @@
         if ( typeof page == 'undefined' || page == '' ) {
             this.page = this.wrapper.children;
         } else {
-            this.page = isArray(page) ? this.page : this.wrapper.querySelectorAll(page);
+            this.page = Array.isArray(page) ? this.page : this.wrapper.querySelectorAll(page);
         }
 
         // 默认控制值配置
@@ -502,8 +461,8 @@
                 this.wrapper.style.position = 'relative';
             }
 
-            _forEach(this.page, function(i, item){
-                item.style.cssText = 'display:none;position:absolute;left:0;top:0;z-index:8;';
+            _forEach(this.page, function(i,item){
+                item.style.cssText = 'display:none;position:absolute;left:0;top:0;z-index:8;';//todo use className
 
                 // 自定时page样式
                 for ( var o in that.options.pageStyle ) {

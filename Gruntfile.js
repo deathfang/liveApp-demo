@@ -10,9 +10,9 @@ module.exports = function (grunt) {
         //公共元数据
         meta : {
             banner: '/* \n'+ 
-                    ' * <%= pkg.author %> \n' + 
-                    ' * <%= pkg.email %> \n' + 
-                    ' * <%= pkg.homepage %>\n' + 
+                    //' * <%= pkg.author %> \n' +
+                    //' * <%= pkg.email %> \n' +
+                    //' * <%= pkg.homepage %>\n' +
                     ' * <%= grunt.template.today("yyyy-mm-dd") %>\n' +
                     ' */'
         },
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 alias: '<%= pkg.spm.alias %>',
                 parsers : {
                     '.js' : [script.jsParser],
-                    '.css' : [style.cssParser],
+                    '.css' : [style.css2jsParser],
                     '.tpl' : [template.tplParser]
                 }
             },
@@ -217,7 +217,8 @@ module.exports = function (grunt) {
                         'view/library/template-debug.js',
                         'spm_modules/**/dist/sea-debug.js',
                         'spm_modules/**/dist/seajs-text-debug.js'
-                        ,'spm_modules/**/dist/seajs-css-debug.js'
+                        //,'spm_modules/**/dist/seajs-css-debug.js'
+                        ,'spm_modules/**/dist/seajs-style-debug.js'
                     ]
                 }
             }
